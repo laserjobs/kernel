@@ -13,11 +13,11 @@ This repository explores the arithmetic properties of a Finite Field geometry wh
 The curve parameters are strictly derived with no arbitrary choices ("Nothing Up My Sleeve" numbers):
 
 1.  **The Prime Modulus ($p$):** Derived from the CODATA 2022 value of $\alpha^{-1} \approx 137.035999084$.
-    ($ p \approx \exp\left( \frac{\pi}{2\alpha} \right) \approx 3.05 \times 10^{93} $)
+    ($p \approx \exp\left( \frac{\pi}{2\alpha} \right) \approx 3.05 \times 10^{93}$)
 2.  **The Coefficients:**
-    ($ y^2 = x^3 - \zeta(3)x + \frac{\pi^4}{8} $)
+    ($y^2 = x^3 - \zeta(3)x + \frac{\pi^4}{8}$)
 3.  **The Generator:**
-    ($ G_x = 1 $)
+    ($G_x = 1$)
 
 ## The Computational Result
 
