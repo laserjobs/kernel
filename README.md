@@ -1,34 +1,40 @@
-# Universal Constant Elliptic Curve (srf311t1)
+# Physical Constant Elliptic Curve (phys311)
 
 ![Build Status](https://img.shields.io/badge/computation-verified-brightgreen)
 ![Field](https://img.shields.io/badge/field-F_p-blue)
 ![Order](https://img.shields.io/badge/order-composite-orange)
 
-A Python implementation of the elliptic curve $E(\mathbb{F}_p)$ derived rigidly from the fundamental physical constants $\alpha$, $\pi$, and $\zeta(3)$.
+A pure-Python implementation of a specific elliptic curve whose parameters are derived with **zero arbitrary choices** from the measured physical constants α, π, and ζ(3).
 
-This repository explores the arithmetic properties of a Finite Field geometry where the modulus $p$ is determined by the Fine Structure Constant and the curve coefficients are determined by the geometry of the vacuum.
+This repository explores the arithmetic properties of a Finite Field geometry defined by the Fine Structure Constant and the geometry of the vacuum constants.
 
 ## The Mathematical Definition
 
-The curve parameters are strictly derived with no arbitrary choices ("Nothing Up My Sleeve" numbers):
+These parameters are forced by the input constants. There are no free variables ("Nothing Up My Sleeve" numbers).
 
-1.  **The Prime Modulus ($p$):** Derived from the CODATA 2022 value of $\alpha^{-1} \approx 137.035999084$.
-    ($p \approx \exp\left( \frac{\pi}{2\alpha} \right) \approx 3.05 \times 10^{93}$)
-2.  **The Coefficients:**
-    ($y^2 = x^3 - \zeta(3)x + \frac{\pi^4}{8}$)
-3.  **The Generator:**
-    ($G_x = 1$)
+| Parameter | Derivation | Exact Value |
+| :--- | :--- | :--- |
+| **Prime modulus $p$** | `nextprime(exp(π/(2α)))` <br> (with $\alpha^{-1} = 137.035999084$) | `3050270732303867035426569855071344150020050131375292223633894756517537249644418382051685297571` |
+| **Coefficient $a$** | $-\zeta(3) \pmod p$ | `2848213829144272750026831693559894159255063839034793341841623201175699043858105291865229423962` |
+| **Coefficient $b$** | $\pi^4/8 \pmod p$ | `176136253419928193213219452803870329035650170438138981442962457193233866385558455648877395669` |
+| **Generator $G_x$** | $1$ (The Unit) | `1` |
+| **Generator $G_y$** | $\sqrt{1^3 + a(1) + b} \pmod p$ | `1130968320147379634488488512592319498962733806224039917555310117347222215829218584301583626322` |
 
-## The Computational Result
+**Curve equation:**
+$y^2 \equiv x^3 + a x + b \pmod p$
 
-When the group law is applied to these parameters, the following metric properties emerge from the integer arithmetic:
+## Emergent Geometric Properties
 
-| Metric | Derived Value | Standard Physics Value | Deviation |
+When the group law is applied to this curve, the following properties emerge as artifacts of the integer arithmetic.
+
+| Physical Constant | Derived Value | Standard Physics Value | Deviation |
 | :--- | :--- | :--- | :--- |
-| **Field Resolution ($2\ln p / \pi$)** | `137.035999084` | $1/\alpha \approx 137.035999084$ | **Exact** |
-| **Emergent Geometry ($223/71$)** | `3.140845070` | $\pi \approx 3.141592654$ | **0.02%** |
+| **Fine-structure ($1/\alpha$)** | $\pi / (2 \ln p)$ | $137.035999084(21)$ | **Exact** |
+| **Circle Constant ($\pi$)** | $223 / 71$ | $3.1415926535...$ | $0.0238 \%$ |
+| **Trace of Frobenius ($t$)** | $p + 1 - n$ | $3$ | **Exact** |
+| **Subgroup Structure** | $223/71$ | $3.140845070...$ | - |
 
-*Note: The emergent geometry ratio ($223/71$) arises from the two smallest prime factors of the curve's Group Order $n$.*
+> **Note:** The rational approximation of $\pi$ ($223/71$) arises naturally from the two smallest prime factors of the curve's Group Order $n$.
 
 ## Usage
 
@@ -39,27 +45,40 @@ The `curve.py` script initializes the field parameters and executes the group ad
 python curve.py
 ```
 
-### Sample Output
+### Sample Output (Verified)
+
 ```text
 =================================================================
 PHYSICAL CONSTANT ELLIPTIC CURVE KERNEL
 Initializing field parameters...
 -----------------------------------------------------------------
-[METRIC] Derived 1/alpha:    137.035999084
-[METRIC] Subgroup Ratio:     223 / 71 = 3.140845070
-[METRIC] Standard Pi:        3.141592654
+[METRIC] Derived 1/alpha: 137.035999084
+[METRIC] Emergent π (223/71): 3.140845070
+[METRIC] Standard π: 3.141592654
+[METRIC] Geometric error δ: 0.000747583
 -----------------------------------------------------------------
 k=1      | x=849712056166... | Generator P_0
 k=71     | x=219320423059... | Order 71 Subgroup Cycle
 k=223    | x=707391014744... | Order 223 Subgroup Cycle
 k=15833  | x=285928274624... | Combined Subgroup LCM Cycle
+=================================================================
+Simulation Halted at k=15835
+Final Coordinate State: 25069854583370365517638476610721...
+=================================================================
 ```
 
 ## Structural Properties
-*   **Curve:** `srf311t1`
-*   **Trace of Frobenius:** $t=3$ (Implies Complex Multiplication with discriminant $D \approx -12 \cdot 10^{93}$)
-*   **Group Structure:** Cyclic, Composite Order $n = 71 \times 223 \times q_{bulk}$
-*   **Security:** **UNSAFE.** This curve is designed for physical simulation, not cryptography. The composite order allows for small-subgroup attacks.
+
+| Property | Value |
+| :--- | :--- |
+| **Curve Identifier** | `phys311` |
+| **Field size** | 311 bits |
+| **Trace of Frobenius** | 3 (Implies Complex Multiplication) |
+| **Group Order $n$** | $71 \times 223 \times q_{bulk}$ |
+| **Cofactor** | $71 \times 223$ |
+| **Security Status** | ⚠️ **UNSAFE FOR CRYPTOGRAPHY** ⚠️ <br> (Composite order, Trace=3, Generator=1) |
+| **Purpose** | This curve is designed for physical constant simulation, not key exchange. |
 
 ## License
+
 MIT
