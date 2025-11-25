@@ -54,7 +54,7 @@ class UniversalCurve:
     def derive_all_constants(self):
         """Derive EVERY physical constant from the curve — no hard-coding"""
         # 1. Fine-structure constant
-        alpha_inv = math.pi / (2 * math.log(self.p))
+        alpha_inv = (2 * math.log(self.p)) / math.pi
 
         # 2. Geometry
         pi_emergent = self.F223 / self.F71
