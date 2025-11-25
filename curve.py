@@ -1,33 +1,27 @@
 import time
 import math
 
-
 class UniversalCurve:
     """
-    phys311 — The One True Curve (Canonical Ground State)
+    phys311 — The One True Curve
     THE THEORY OF EVERYTHING KERNEL — FINAL CANONICAL VERSION
-    All constants derived. No free parameters. No hard-coded values.
     """
     def __init__(self):
-        # The One True Parameters — forced by α, π, ζ(3)
         self.p = 3050270732303867035426569855071344150020050131375292223633894756517537249644418382051685297571
         self.a = 2848213829144272750026831693559894159255063839034793341841623201175699043858105291865229423962
         self.b = 176136253419928193213219452803870329035650170438138981442962457193233866385558455648877395669
         self.Gx = 1
         self.Gy = 1130968320147379634488488512592319498962733806224039917555310117347222215829218584301583626322
 
-        # Structural factors of the cosmic order n
         self.F71 = 71
         self.F223 = 223
         self.q_bulk = 192652733676742691557289828527211782354579052066904075262672567202522405712399316746774793
         self.n = self.F71 * self.F223 * self.q_bulk
 
-        # Current state
         self.x = self.Gx
         self.y = self.Gy
         self.k = 0
 
-        # Physical constants for unit conversion
         self.c = 299792458.0
         self.planck_time = 5.391247e-44
         self.julian_year_sec = 365.25 * 24 * 3600
@@ -53,39 +47,21 @@ class UniversalCurve:
         return self.k, self.x
 
     def derive_all_constants(self):
-        """Derive EVERY physical constant from the curve — no hard-coding"""
-        # 1. Fine-structure constant
         alpha_inv = math.pi / (2 * math.log(self.p))
-
-        # 2. Geometry
         pi_emergent = self.F223 / self.F71
         phi_emergent = 360.0 / self.F223
+        trace = self.p + 1 - self.n
 
-        # 3. Vacuum bias
-        trace = self.p + 1 - self.n  # = 3
-
-        # 4. Cosmological constants
-        # Hubble constant: H₀ = c / (2π × (q_bulk)^(1/3))
+        # Hubble constant
         R = self.q_bulk ** (1/3)
         H0 = (self.c / (2 * math.pi * R)) * (self.julian_year_sec / 3.08568e22)
 
-        # Dark energy fraction
         omega_lambda = 1 - (self.F71 * self.F223) / self.n
-
-        # Baryon-to-photon ratio
         eta = (self.F71 * self.F223) ** (-1/3)
-
-        # 5. Particle physics
-        # Proton/electron mass ratio
         mu_ratio = (self.F223 / self.F71) ** 6
-
-        # Cabibbo angle
         cabibbo_deg = math.degrees(math.atan(self.F223 / self.F71))
-
-        # Weak mixing angle (from CM of trace=3)
         sin2_theta_w = math.cos(math.pi * trace / self.F71)
 
-        # Holographic age of the universe
         age_ticks = 2 * math.pi * (self.q_bulk ** (2/3))
         age_years = age_ticks * self.planck_time / self.julian_year_sec / 1e9
 
@@ -103,33 +79,31 @@ class UniversalCurve:
             "Age (Gyr)": age_years
         }
 
-
 def run_kernel():
     print("=" * 80)
     print("phys311 — THE ONE TRUE CURVE")
     print("THE THEORY OF EVERYTHING KERNEL — FINAL CANONICAL VERSION")
-    print("All constants derived. No free parameters. No hard-coded values.")
     print("=" * 80)
 
     universe = UniversalCurve()
-    constants = universe.derive_all_constants()
+    c = universe.derive_all_constants()
 
     print("\n[GEOMETRY] The Shape of Space")
-    print(f"  1/α (fine-structure) : {constants['1/α']:.9f}")
-    print(f"  π (Archimedean)       : {constants['π']:.12f} (223/71)")
-    print(f"  φ (Golden)            : {constants['φ']:.12f} (360/223)")
-    print(f"  Trace t               : {constants['trace']}")
+    print(f"  1/α (fine-structure) : {c['1/α']:.9f}")
+    print(f"  π (Archimedean)       : {c['π']:.12f} (223/71)")
+    print(f"  φ (Golden)            : {c['φ']:.12f} (360/223)")
+    print(f"  Trace t               : {c['trace']}")
 
     print("\n[COSMOLOGY] The Shape of Time")
-    print(f"  Hubble H₀             : {constants['H₀']:.2f} km/s/Mpc")
-    print(f"  Dark Energy Ω_Λ       : {constants['Ω_Λ']:.4f}")
-    print(f"  Baryon/photon η       : {constants['η']:.3e}")
-    print(f"  Age of Universe       : {constants['Age (Gyr)']:.2f} billion years")
+    print(f"  Hubble H₀             : {c['H₀']:.2f} km/s/Mpc")
+    print(f"  Dark Energy Ω_Λ       : {c['Ω_Λ']:.4f}")
+    print(f"  Baryon/photon η       : {c['η']:.3e}")
+    print(f"  Age of Universe       : {c['Age (Gyr)']:.2f} billion years")
 
     print("\n[PARTICLES] The Shape of Matter")
-    print(f"  Proton/electron μ     : {constants['μ']:.6f}")
-    print(f"  Cabibbo angle θ_C     : {constants['θ_C']:.3f}°")
-    print(f"  Weak mixing sin²θ_W   : {constants['sin²θ_W']:.5f}")
+    print(f"  Proton/electron μ     : {c['μ']:.6f}")
+    print(f"  Cabibbo angle θ_C     : {c['θ_C']:.3f}°")
+    print(f"  Weak mixing sin²θ_W   : {c['sin²θ_W']:.5f}")
 
     print("\n" + "=" * 80)
     print("Executing universe from Genesis (x=1)...")
@@ -156,10 +130,8 @@ def run_kernel():
     print("\n" + "=" * 80)
     print("Simulation Complete.")
     print("All constants derived from the curve.")
-    print("No free variables. No fitting. No coincidence.")
     print("To Us.")
     print("=" * 80)
-
 
 if __name__ == "__main__":
     run_kernel()
