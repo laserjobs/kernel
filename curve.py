@@ -6,12 +6,9 @@ class UniversalCurve:
     Implementation of the elliptic curve E(F_p) defined by:
     p = next_prime(exp(pi / (2 * alpha)))
     y^2 = x^3 - zeta(3)x + pi^4/8
-    
-    Generator P_0 at x=1.
     """
     def __init__(self):
         # 1. Finite Field Modulus (311 bits)
-        # Derived from Fine Structure Constant alpha^-1 = 137.035999084
         self.p = 3050270732303867035426569855071344150020050131375292223633894756517537249644418382051685297571
 
         # 2. Curve Coefficients
@@ -22,12 +19,13 @@ class UniversalCurve:
         self.Gx = 1
         self.Gy = 1130968320147379634488488512592319498962733806224039917555310117347222215829218584301583626322
 
-        # 4. Group Order Properties
-        # The order n is composite with distinct small prime factors.
-        self.factor_a = 71
-        self.factor_b = 223
+        # 4. Structural Factors
+        # The order n = 71 * 223 * q_bulk
+        self.factor_denom = 71
+        self.factor_num = 223
+        self.order_n = 3050270732303867035426569855071344150020050131375292223633894756517537249644418382051685297569
         
-        # State Vector
+        # State
         self.x = self.Gx
         self.y = self.Gy
         self.k = 0
@@ -36,12 +34,9 @@ class UniversalCurve:
         return pow(a, self.p - 2, self.p)
 
     def point_add(self, Px, Py, Qx, Qy):
-        """Standard Weierstrass Group Law addition."""
         if Px is None: return Qx, Qy
         if Qx is None: return Px, Py
-        
-        if Px == Qx and (Py + Qy) % self.p == 0:
-            return None, None
+        if Px == Qx and (Py + Qy) % self.p == 0: return None, None
 
         if Px == Qx and Py == Qy:
             lam = (3 * Px * Px + self.a) * self._modinv(2 * Py) % self.p
@@ -53,24 +48,27 @@ class UniversalCurve:
         return Rx, Ry
 
     def step(self):
-        """Perform one scalar addition step: P_new = P_current + G"""
         self.x, self.y = self.point_add(self.x, self.y, self.Gx, self.Gy)
         self.k += 1
         return self.k, self.x
 
-    def analyze_geometry(self):
-        """
-        Analyzes the emergent properties derived from the group subgroups.
-        """
-        # 1. Verify Fine Structure derivation
-        calculated_alpha_inv = (2 * math.log(self.p)) / math.pi
+    def analyze_physics(self):
+        # 1. Fine Structure Constant
+        alpha = (2 * math.log(self.p)) / math.pi
         
-        # 2. Emergent Rational Approximation of Pi
-        # The ratio of the two small subgroup orders.
-        ratio = self.factor_b / self.factor_a
-        pi_error = abs(math.pi - ratio)
+        # 2. Archimedes' Constant (Pi)
+        archimedes = self.factor_num / self.factor_denom
+        pi_error = abs(math.pi - archimedes)
         
-        return calculated_alpha_inv, ratio, pi_error
+        # 3. Vacuum Bias (Trace of Frobenius)
+        # t = p + 1 - n
+        trace = self.p + 1 - self.order_n
+        
+        # 4. Vacuum Energy Density (proxy)
+        # Related to the asymmetry of the field
+        vacuum_energy = trace / self.p
+
+        return alpha, archimedes, pi_error, trace, vacuum_energy
 
 def run_kernel():
     print("="*65)
@@ -78,51 +76,42 @@ def run_kernel():
     print("Initializing field parameters...")
     
     curve = UniversalCurve()
-    alpha, ratio, error = curve.analyze_geometry()
+    alpha, arch, error, trace, vac = curve.analyze_physics()
     
     print("-" * 65)
     print(f"[METRIC] Derived 1/alpha:    {alpha:.9f}")
-    print(f"[METRIC] Subgroup Ratio:     {curve.factor_b} / {curve.factor_a} = {ratio:.9f}")
-    print(f"[METRIC] Standard Pi:        {math.pi:.9f}")
-    print(f"[METRIC] Geometric Delta:    {error:.9f}")
+    print(f"[METRIC] Archimedes Ratio:   {curve.factor_num} / {curve.factor_denom} = {arch:.9f}")
+    print(f"[METRIC] Standard Pi:        {math.pi:.9f} (Error: {error:.5f})")
+    print(f"[METRIC] Trace (Bias):       {trace} (Exact Integer)")
+    print(f"[METRIC] Vacuum Density:     {vac:.3e}")
     print("-" * 65)
     print("Executing group law simulation from x=1...")
     print("="*65 + "\n")
     
-    # Run to the LCM of the small factors
     TARGET_CYCLE = 71 * 223 + 2 
     
     try:
-        start_time = time.time()
         while curve.k < TARGET_CYCLE:
             k, x = curve.step()
             
-            # Log significant cyclic events
             event = ""
-            if k == 1: 
-                event = "Generator P_0"
-            elif k == 71: 
-                event = "Order 71 Subgroup Cycle"
-            elif k == 223: 
-                event = "Order 223 Subgroup Cycle"
-            elif k == 71 * 223: 
-                event = "Combined Subgroup LCM Cycle"
+            if k == 1: event = "Generator P_0"
+            elif k == 71: event = "Factor 71 (Denominator)"
+            elif k == 223: event = "Factor 223 (Numerator)"
+            elif k == 71 * 223: event = "Archimedean Cycle Complete"
 
             if event:
-                # Truncate coordinate for logging
                 x_str = str(x)
                 x_log = x_str[:12] + "..." + x_str[-8:]
                 print(f"k={k:<6} | x={x_log} | {event}")
-                
-            # Throttle for display if running locally
+            
             if k < 500: time.sleep(0.001)
 
     except KeyboardInterrupt:
-        print("\nProcess interrupted by user.")
+        pass
 
     print("\n" + "="*65)
     print(f"Simulation Halted at k={curve.k}")
-    print(f"Final Coordinate State: {str(curve.x)[:32]}...")
     print("="*65)
 
 if __name__ == "__main__":
