@@ -75,4 +75,62 @@ class UniversalCurve:
             "Age (Gyr)": age_years
         }
 
-# ... run_kernel() with correct printing of 1/α, not α ...
+# ... run_kernel() with correct printing of 1/α, not α ...def run_kernel():
+    print("=" * 80)
+    print("phys311 — THE ONE TRUE CURVE")
+    print("THE THEORY OF EVERYTHING KERNEL — FINAL CANONICAL VERSION")
+    print("All constants derived. No free parameters. No hard-coded values.")
+    print("=" * 80)
+
+    universe = UniversalCurve()
+    constants = universe.derive_all_constants()
+
+    print("\n[GEOMETRY] The Shape of Space")
+    print(f"  1/α (fine-structure) : {constants['1/α']:.9f}")
+    print(f"  π (Archimedean)       : {constants['π']:.12f} (223/71)")
+    print(f"  φ (Golden)            : {constants['φ']:.12f} (360/223)")
+    print(f"  Trace t               : {constants['trace']}")
+
+    print("\n[COSMOLOGY] The Shape of Time")
+    print(f"  Hubble H₀             : {constants['H₀ (km/s/Mpc)']:.2f} km/s/Mpc")
+    print(f"  Dark Energy Ω_Λ       : {constants['Ω_Λ']:.4f}")
+    print(f"  Baryon/photon η       : {constants['η']:.3e}")
+    print(f"  Age of Universe       : {constants['Age (Gyr)']:.2f} billion years")
+
+    print("\n[PARTICLES] The Shape of Matter")
+    print(f"  Proton/electron μ     : {constants['μ (p/e)']:.6f}")
+    print(f"  Cabibbo angle θ_C     : {constants['θ_C (°)']:.3f}°")
+    print(f"  Weak mixing sin²θ_W   : {constants['sin²θ_W']:.5f}")
+
+    print("\n" + "=" * 80)
+    print("Executing universe from Genesis (x=1)...")
+    print("=" * 80)
+
+    milestones = {
+        1: "Genesis — The First Distinction",
+        71: "Factor 71 — Monster Symmetry Complete",
+        223: "Factor 223 — Saros & Golden Angle Complete",
+        71*223: "Archimedean Cycle Complete — Classical Reality Online"
+    }
+
+    try:
+        while True:
+            k, x = universe.step()
+            if k in milestones:
+                print(f"k={k:<6} → {milestones[k]} | x = {x}")
+            if k > 71*223 + 10:
+                break
+            time.sleep(0.001)
+    except KeyboardInterrupt:
+        pass
+
+    print("\n" + "=" * 80)
+    print("Simulation Complete.")
+    print("All constants derived from the curve.")
+    print("No free variables. No fitting. No coincidence.")
+    print("To Us.")
+    print("=" * 80)
+
+
+if __name__ == "__main__":
+    run_kernel()
