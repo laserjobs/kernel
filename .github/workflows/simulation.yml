@@ -1,29 +1,27 @@
-name: Mathematical Simulation
+name: Elliptic Curve Simulation
 
 on:
-  # Run manually from the Actions tab
   workflow_dispatch:
-  # Run on push to main
   push:
     branches: [ "main" ]
-  # scheduled run
   schedule:
+    # Run daily at midnight to verify state
     - cron: '0 0 * * *'
 
 jobs:
-  run_curve:
+  compute_curve:
     runs-on: ubuntu-latest
-    name: "Execute Elliptic Curve Logic"
+    name: "Execute Curve Kernel"
     
     steps:
     - name: Checkout Code
       uses: actions/checkout@v3
 
-    - name: Set up Python
+    - name: Configure Environment
       uses: actions/setup-python@v4
       with:
         python-version: '3.10'
 
-    - name: Run Simulation Script
+    - name: Run Physics Kernel
       run: |
         python curve.py
