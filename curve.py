@@ -99,7 +99,7 @@ class UniversalCurve:
 
 def run_kernel():
     print("=" * 80)
-    print("SRF-311-TRUE: THE THEORY OF EVERYTHING KERNEL")
+    print("THE THEORY OF EVERYTHING KERNEL")
     print("Deriving Fundamental Constants from Integers [71, 223, q_bulk]...")
     print("=" * 80)
 
