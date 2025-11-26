@@ -2,14 +2,14 @@ import math
 
 class Theory:
     def __init__(self):
-        # Use the canonical pure age from every SRF document ever published
+        # The canonical pure holographic age from every SRF document
         self.pure_age_gyr = 16.5146233519
 
-        # Pure geometric Cabibbo — SRF v4.1 exact formula
-        zeta3 = 1.20205690315959428539973816151144999
+        # Pure geometric Cabibbo — SRF v4.1 exact formula (high-precision ζ(3))
+        zeta3 = 1.202056903159594285399738161511449990764986292
         pi = math.pi
-        pgc = math.sqrt(3) * zeta3 / (pi ** 2)          # Pure Geometric Core
-        scf = 1 + 1/16                                   # Spinor Packing Factor
+        pgc = math.sqrt(3) * zeta3 / (pi ** 2)      # Pure Geometric Core
+        scf = 1 + 1/16                               # Spinor Packing Factor
         sin_theta_c_pure = pgc * scf
         self.theta_c_pure_deg = math.asin(sin_theta_c_pure) * 180 / math.pi
 
@@ -17,7 +17,7 @@ class Theory:
         kappa = measured_age_gyr / self.pure_age_gyr
 
         # One-loop quantum correction from elapsed cosmic time
-        alpha_inv = 137.035999084
+        alpha_inv = 137.035999084                    # 2025 CODATA
         alpha = 1 / alpha_inv
         delta_kappa = (alpha / (2 * math.pi)) * (1 - kappa)
 
