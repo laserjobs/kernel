@@ -25,3 +25,7 @@ jobs:
     - name: Run Physics Kernel
       run: |
         python curve.py
+
+    - name: Run Codex Kernel
+      run: |
+        python codex.py
