@@ -24,4 +24,4 @@ jobs:
 
     - name: Run Physics Kernel
       run: |
-        python universe.py
+        python derivation.py
