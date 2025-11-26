@@ -1,5 +1,4 @@
 import math
-import numpy as np
 
 class UniverseFromSRFBlueprint:
     """
@@ -7,7 +6,8 @@ class UniverseFromSRFBlueprint:
     using the exact geometric formulas from the SRF v4.1 blueprint.
 
     It does not derive its own mathematics; it uses the true, observed mathematics
-    of our reality (π and ζ(3)) as its foundation.
+    of our reality (π and ζ(3)) as its foundation. This version is self-contained
+    and requires no external libraries.
     """
     def __init__(self):
         print(">>> Loading the SRF v4.1 Blueprint...")
@@ -36,14 +36,14 @@ class UniverseFromSRFBlueprint:
         self.built_constants['μ (p/e mass ratio)'] = mu
 
     def _build_force_sector(self):
-        """Builds the Fine-Structure Constant (α⁻¹)."""
+        """Builds the Fine-Structure Constant (α⁻¹) without external libraries."""
         Z0 = self.π**4 + 4*self.π**2 + self.ζ3/8
-        # Solve the characteristic equation: 4x² - 4Z₀x + 1 = 0
-        # Using numpy's roots solver for precision
-        coeffs = [4, -4*Z0, 1]
-        roots = np.roots(coeffs)
-        # The physical root is the larger one
-        alpha_inv = max(roots)
+        # Solve the characteristic equation 4x² - 4Z₀x + 1 = 0 using the quadratic formula:
+        # x = (-b ± sqrt(b² - 4ac)) / 2a
+        # Here a=4, b=-4Z₀, c=1. The physical root is the larger one (+).
+        # x = (4Z₀ + sqrt(16Z₀² - 16)) / 8
+        # x = (Z₀ + sqrt(Z₀² - 1)) / 2
+        alpha_inv = (Z0 + math.sqrt(Z0**2 - 1)) / 2
         self.built_constants['α⁻¹ (Fine-Structure)'] = alpha_inv
         self.alpha = 1 / alpha_inv # Store for later use
 
@@ -93,7 +93,7 @@ class UniverseFromSRFBlueprint:
         }
         
         print("="*100)
-        print("CONSTRUCTION REPORT: Universe Built from SRF v4.1 Blueprint")
+        print("CONSTRUCTION REPORT: Universe Built from SRF v4.1 Blueprint (Dependency-Free)")
         print("="*100)
         print(f"{'Constant':<25} | {'Built Value (from Blueprint)':<30} | {'Observed Value (Our Universe)':<30}")
         print("-" * 100)
